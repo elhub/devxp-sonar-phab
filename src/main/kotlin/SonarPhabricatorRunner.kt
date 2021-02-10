@@ -37,24 +37,28 @@ import java.time.ZonedDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Properties
+import no.elhub.dev.tools.SonarPhabException
 
-
-const val helpMessage = """
+const val POLL_ITERATIONS = 120 // Number of times to poll for a response
+const val POLL_SLEEP = 500 // Time to wait between polls for a response
+const val HELP_MESSAGE = """
 sonar-phab uses a number of environment variables in order to run correctly;
 these must be set to process the changeset correctly.
 
-SONAR_URI: The URI for the Sonar server.
-SONAR_BRANCH: The Diff ID to be processed from Phabricator. This becomes a
-branch in the Sonar analysis.
+SONAR_RESULTS: Sonar report task summary file (report-task.txt)
 PHABRICATOR_URI: The URI for the Phabricator server.
 PHABRICATOR_HARBORMASTER_PHID: The phid of Harbormaster in Phabricator.
+PHABRICATOR_CONDUIT_TOKEN: The conduit token of the user that the process will
+run as.
 """
-val sonarUrl = System.getenv("SONAR_URI")
-val sonarBranch = System.getenv("PHABRICATOR_REVISION_ID")
+val sonarResults = System.getenv("SONAR_RESULTS") ?: "build/sonar/report-task.txt"  // Assumes a gradle run
+var taskResultUri = ""
+var sonarUrl = ""
+var sonarBranch = ""
+var sonarId = ""
 val phabricatorUrl = System.getenv("PHABRICATOR_URI")
 val targetPhid = System.getenv("PHABRICATOR_HARBORMASTER_PHID")
 val conduitToken = System.getenv("PHABRICATOR_CONDUIT_TOKEN")
-var sonarId = ""
 val issues = ArrayList<SonarIssue>()
 
 /**
@@ -79,6 +83,7 @@ class SonarPhabricatorRunner : Runnable {
      *
      * @param args an array of String arguments to be parsed
      */
+    @Suppress("SpreadOperator") // Should not complain about this in a main class
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
@@ -88,10 +93,11 @@ class SonarPhabricatorRunner : Runnable {
 
     override fun run() {
         if (help) {
-            println(helpMessage)
+            println(HELP_MESSAGE)
             exitProcess(0)
         }
         println("Start processing")
+        loadProperties()
         pollSonarServer()
         retrieveIssues()
         writeToPhabricator(ConduitClient(phabricatorUrl, conduitToken))
@@ -100,61 +106,68 @@ class SonarPhabricatorRunner : Runnable {
 
 }
 
+fun loadProperties() {
+    val properties = Properties()
+    val inputStream = FileInputStream(sonarResults)
+    properties.load(inputStream)
+    taskResultUri = properties["ceTaskUrl"].toString()
+    sonarUrl = properties["serverUrl"].toString()
+    sonarBranch = properties["branch"].toString()
+    println("$taskResultUri")
+}
+
 /** Poll the Sonar server for a specified amount of time (currently ~60 secs)
  */
 fun pollSonarServer() {
-    val properties = Properties()
-    val inputStream = FileInputStream("build/sonar/report-task.txt")
-    properties.load(inputStream)
-    val taskResultUri = properties["ceTaskUrl"].toString()
     print("Waiting on task to complete (task $taskResultUri)")
     var success = false
     var iterations = 0
-    while (!success || iterations > 120) {
+    while (!success || iterations > POLL_ITERATIONS) {
         val factory = JsonFactory()
         val parser = factory.createParser(URL(taskResultUri))
         parser.nextToken() // JsonToken.START_OBJECT
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             val fieldName = parser.currentName
             when (fieldName) {
-                "task" -> {
-                    parser.nextToken() // JsonToken.START_OBJECT
-                    while (parser.nextToken() != JsonToken.END_OBJECT) {
-                        val taskField = parser.currentName
-                        when (taskField) {
-                            "status" -> {
-                                val result = parser.nextTextValue()
-                                if (result.equals("SUCCESS"))
-                                    success = true
-                            }
-                            else -> {
-                                // NOOP
-                            }
-                        }
-                    }
-                }
-                else -> {
-                    // NOOP
-                }
+                "task" -> parseTask(parser)
+                else -> Unit // NOOP
             }
         }
         iterations++
         print(".")
-        sleep(500)
+        sleep(POLL_SLEEP)
     }
     println(".")
+}
+
+private fun parseTask(parser: JsonParser) {
+    parser.nextToken() // JsonToken.START_OBJECT
+    while (parser.nextToken() != JsonToken.END_OBJECT) {
+        val taskField = parser.currentName
+        when (taskField) {
+            "status" -> {
+                val result = parser.nextTextValue()
+                if (result.equals("SUCCESS"))
+                    success = true
+            }
+            else -> {
+                // NOOP
+            }
+        }
+    }
 }
 
 /** Retrieve issues from Sonar server and parse them into the issues list
  */
 fun retrieveIssues() {
     val factory = JsonFactory()
-    val sonarResult = "$sonarUrl/api/issues/search?componentKeys=$sonarId&branch=$sonarBranch&resolved=false&facets=severities"
+    val sonarResult = "$sonarUrl/api/issues/search?componentKeys=$sonarId&branch=$sonarBranch" +
+            "&resolved=false&facets=severities"
     println("Retrieving $sonarResult")
     val parser = factory.createParser(URL(sonarResult))
     val startToken = parser.nextToken()
     if (startToken != JsonToken.START_OBJECT)
-        throw RuntimeException("Malformed sonar scan file.")
+        throw SonarPhabException("Malformed sonar scan file.")
     while (parser.nextToken() != JsonToken.END_OBJECT) {
         val fieldName = parser.currentName
         when (fieldName) {
@@ -221,7 +234,8 @@ fun writeToPhabricator(conduitClient: ConduitClient) {
     conduitClient.perform("harbormaster.sendmessage", params)
     conduitClient.postComment(
         sonarBranch,
-        "SonarQube identified ${issues.size} issues. $errors errors, $warnings warnings, and $advice advice. See lint results.\n" +
+        "SonarQube identified ${issues.size} issues. $errors errors, $warnings warnings, and $advice advice. " +
+                "See lint results.\n" +
                 "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
     )
 }

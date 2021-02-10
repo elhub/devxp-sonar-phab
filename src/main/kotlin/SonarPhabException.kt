@@ -24,4 +24,4 @@ package no.elhub.dev.tools
 
 import kotlin.Exception
 
-class ConduitClientException(message:String): Exception(message)
+class SonarPhabException(message:String): Exception(message)
