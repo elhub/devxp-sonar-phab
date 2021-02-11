@@ -40,7 +40,7 @@ import java.util.Properties
 import no.elhub.dev.tools.SonarPhabException
 
 const val POLL_ITERATIONS = 120 // Number of times to poll for a response
-const val POLL_SLEEP = 500 // Time to wait between polls for a response
+const val POLL_SLEEP: Long = 500 // Time to wait between polls for a response
 const val HELP_MESSAGE = """
 sonar-phab uses a number of environment variables in order to run correctly;
 these must be set to process the changeset correctly.
@@ -129,7 +129,7 @@ fun pollSonarServer() {
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             val fieldName = parser.currentName
             when (fieldName) {
-                "task" -> parseTask(parser)
+                "task" -> success = parseTask(parser)
                 else -> Unit // NOOP
             }
         }
@@ -140,7 +140,7 @@ fun pollSonarServer() {
     println(".")
 }
 
-private fun parseTask(parser: JsonParser) {
+private fun parseTask(parser: JsonParser): Boolean {
     parser.nextToken() // JsonToken.START_OBJECT
     while (parser.nextToken() != JsonToken.END_OBJECT) {
         val taskField = parser.currentName
@@ -148,13 +148,14 @@ private fun parseTask(parser: JsonParser) {
             "status" -> {
                 val result = parser.nextTextValue()
                 if (result.equals("SUCCESS"))
-                    success = true
+                    return true
             }
             else -> {
                 // NOOP
             }
         }
     }
+    return false
 }
 
 /** Retrieve issues from Sonar server and parse them into the issues list
