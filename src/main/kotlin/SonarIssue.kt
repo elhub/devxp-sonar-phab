@@ -24,6 +24,7 @@ package no.elhub.dev.tools
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
+import com.fasterxml.jackson.databind.JsonNode
 
 /** Model for a Sonar Issue
  */
@@ -41,7 +42,7 @@ class SonarIssue(parser: JsonParser) {
         parser.nextToken() // START_OBJECT
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             when (parser.currentName) {
-                "key" -> parser.nextValue()
+                "key" -> parser.text // Weirdness: I'd expect nextTextValue here, but for some reason, that breaks the parsing. Not sure why!
                 "rule" -> rule = parser.nextTextValue()
                 "severity" -> {
                     when (parser.nextTextValue()) {
@@ -54,16 +55,16 @@ class SonarIssue(parser: JsonParser) {
                     component = parser.nextTextValue()
                     fileName = component.substringAfterLast(":")
                 }
-                "project" -> parser.nextValue()
+                "project" -> parser.nextTextValue()
                 "line" -> line = parser.nextIntValue(0)
-                "hash" -> parser.nextValue()
+                "hash" -> parser.nextTextValue()
                 "textRange" -> {
                     parser.nextToken() // START_OBJECT
                     while (parser.nextToken() != JsonToken.END_OBJECT) {
                         when (parser.currentName) {
                             "startLine" -> line = parser.nextIntValue(0)
                             "startOffset" -> char = parser.nextIntValue(0)
-                            else -> parser.nextValue()
+                            else -> parser.nextIntValue(0)
                         }
                     }
                 }
@@ -77,10 +78,10 @@ class SonarIssue(parser: JsonParser) {
                             closures--
                     }
                 }
-                "status" -> parser.nextValue()
+                "status" -> parser.nextTextValue()
                 "message" -> message = parser.nextTextValue()
-                "effort" -> parser.nextValue()
-                "debt" -> parser.nextValue()
+                "effort" -> parser.nextTextValue()
+                "debt" -> parser.nextTextValue()
                 "tags" -> {
                     parser.nextToken() // START_ARRAY
                     while (parser.nextToken() != JsonToken.END_ARRAY) {
@@ -88,9 +89,51 @@ class SonarIssue(parser: JsonParser) {
                     }
                 }
                 "type" -> type = parser.nextTextValue()
-                else -> parser.nextValue()
+                else -> parser.nextToken()
             }
         }
+    }
+
+    companion object {
+
+        /** Retrieve issues from Sonar server and parse them into the issues list
+         */
+        fun retrieveIssues(parser: JsonParser): ArrayList<SonarIssue> {
+            val issues = ArrayList<SonarIssue>()
+            val startToken = parser.nextToken()
+            if (startToken != JsonToken.START_OBJECT)
+                throw SonarPhabException("Malformed sonar scan file.")
+            while (parser.nextToken() != JsonToken.END_OBJECT) {
+                val fieldName = parser.currentName
+                when (fieldName) {
+                    "total" -> {
+                        val issuesNo = parser.nextIntValue(0)
+                        println("Found $issuesNo issues")
+                        if (issuesNo < 1) {
+                            // Write to phabricator
+                            return ArrayList()
+                        }
+                    }
+                    "paging" -> {
+                        parser.nextToken() // START_OBJECT
+                        while (parser.nextToken() != JsonToken.END_OBJECT) {
+                            // NOOP
+                        }
+                    }
+                    "issues" -> {
+                        parser.nextToken() // START_ARRAY
+                        while (parser.nextToken() != JsonToken.END_ARRAY) {
+                            issues.add(SonarIssue(parser))
+                        }
+                    }
+                    else -> {
+                        // NOOP
+                    }
+                }
+            }
+            return issues
+        }
+
     }
 
 }

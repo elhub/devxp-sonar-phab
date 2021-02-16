@@ -33,6 +33,8 @@ import org.json.JSONObject
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.JsonNode
 import java.time.ZonedDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -59,7 +61,7 @@ var sonarId = ""
 val phabricatorUrl = System.getenv("PHABRICATOR_URI")
 val targetPhid = System.getenv("PHABRICATOR_HARBORMASTER_PHID")
 val conduitToken = System.getenv("PHABRICATOR_CONDUIT_TOKEN")
-val issues = ArrayList<SonarIssue>()
+var issues = ArrayList<SonarIssue>()
 
 /**
  * Class for handling console arguments.
@@ -99,7 +101,12 @@ class SonarPhabricatorRunner : Runnable {
         println("Start processing")
         loadProperties()
         pollSonarServer()
-        retrieveIssues()
+        val factory = ObjectMapper().getFactory()
+        val sonarResult = "$sonarUrl/api/issues/search?componentKeys=$sonarId&branch=$sonarBranch" +
+                "&resolved=false&facets=severities"
+        println("Retrieving $sonarResult")
+        val parser = factory.createParser(URL(sonarResult))
+        issues = SonarIssue.retrieveIssues(parser)
         writeToPhabricator(ConduitClient(phabricatorUrl, conduitToken))
         exitProcess(0)
     }
@@ -156,47 +163,6 @@ private fun parseTask(parser: JsonParser): Boolean {
         }
     }
     return false
-}
-
-/** Retrieve issues from Sonar server and parse them into the issues list
- */
-fun retrieveIssues() {
-    val factory = JsonFactory()
-    val sonarResult = "$sonarUrl/api/issues/search?componentKeys=$sonarId&branch=$sonarBranch" +
-            "&resolved=false&facets=severities"
-    println("Retrieving $sonarResult")
-    val parser = factory.createParser(URL(sonarResult))
-    val startToken = parser.nextToken()
-    if (startToken != JsonToken.START_OBJECT)
-        throw SonarPhabException("Malformed sonar scan file.")
-    while (parser.nextToken() != JsonToken.END_OBJECT) {
-        val fieldName = parser.currentName
-        when (fieldName) {
-            "total" -> {
-                val issuesNo = parser.nextIntValue(0)
-                println("Found $issuesNo issues")
-                if (issuesNo < 1) {
-                    // Write to phabricator
-                    return
-                }
-            }
-            "paging" -> {
-                parser.nextToken() // START_OBJECT
-                while (parser.nextToken() != JsonToken.END_OBJECT) {
-                    // NOOP
-                }
-            }
-            "issues" -> {
-                parser.nextToken() // START_ARRAY
-                while (parser.nextToken() != JsonToken.END_ARRAY) {
-                    issues.add(SonarIssue(parser))
-                }
-            }
-            else -> {
-                // NOOP
-            }
-        }
-    }
 }
 
 fun writeToPhabricator(conduitClient: ConduitClient) {

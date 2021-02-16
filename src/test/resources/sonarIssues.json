@@ -1,0 +1,1502 @@
+{
+    "total": 39,
+    "p": 1,
+    "ps": 100,
+    "paging": {
+        "pageIndex": 1,
+        "pageSize": 100,
+        "total": 39
+    },
+    "effortTotal": 166,
+    "debtTotal": 166,
+    "issues": [
+        {
+            "key": "AXclHI7rm2GHyQxqCjJg",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 330,
+            "hash": "2ae7d1dc8e206902a7af7c77efe83635",
+            "textRange": {
+                "startLine": 330,
+                "endLine": 330,
+                "startOffset": 17,
+                "endOffset": 48
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2020-11-09T14:29:31+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-5ibNy0zqeFLP6x",
+            "rule": "kotlin:S1066",
+            "severity": "MAJOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/util/WebDriverUtil.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 73,
+            "hash": "93368f2f008595ed6397b95956036871",
+            "textRange": {
+                "startLine": 73,
+                "endLine": 73,
+                "startOffset": 16,
+                "endOffset": 18
+            },
+            "flows": [
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/util/WebDriverUtil.kt",
+                            "textRange": {
+                                "startLine": 74,
+                                "endLine": 74,
+                                "startOffset": 20,
+                                "endOffset": 22
+                            },
+                            "msg": "Nested \"if\" statement"
+                        }
+                    ]
+                }
+            ],
+            "status": "OPEN",
+            "message": "Merge this \"if\" statement with the nested one.",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "clumsy"
+            ],
+            "creationDate": "2020-07-09T08:49:44+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI6Jm2GHyQxqCjJT",
+            "rule": "javascript:S905",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/model/reconciliation/ReconciliaionController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 401,
+            "hash": "70af8d51a3ce77e6b1cbc0842a4610c1",
+            "textRange": {
+                "startLine": 401,
+                "endLine": 401,
+                "startOffset": 4,
+                "endOffset": 55
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Expected an assignment or function call and instead saw an expression.",
+            "effort": "10min",
+            "debt": "10min",
+            "tags": [
+                "cwe",
+                "unused"
+            ],
+            "creationDate": "2020-03-09T04:52:20+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "BUG",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI6Jm2GHyQxqCjJU",
+            "rule": "javascript:S905",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/model/reconciliation/ReconciliaionController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 402,
+            "hash": "9197bd3093034fa6d94e733e0fbda049",
+            "textRange": {
+                "startLine": 402,
+                "endLine": 402,
+                "startOffset": 4,
+                "endOffset": 61
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Expected an assignment or function call and instead saw an expression.",
+            "effort": "10min",
+            "debt": "10min",
+            "tags": [
+                "cwe",
+                "unused"
+            ],
+            "creationDate": "2020-03-09T04:52:20+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "BUG",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI6Jm2GHyQxqCjJV",
+            "rule": "javascript:S905",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/model/reconciliation/ReconciliaionController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 403,
+            "hash": "dd64ee14bdb31958f16e71428b484d7a",
+            "textRange": {
+                "startLine": 403,
+                "endLine": 403,
+                "startOffset": 4,
+                "endOffset": 87
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Expected an assignment or function call and instead saw an expression.",
+            "effort": "10min",
+            "debt": "10min",
+            "tags": [
+                "cwe",
+                "unused"
+            ],
+            "creationDate": "2020-03-09T04:52:20+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "BUG",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJa",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 213,
+            "hash": "0291e8ef22c7819ccb51d5fa616cdbf7",
+            "textRange": {
+                "startLine": 213,
+                "endLine": 213,
+                "startOffset": 8,
+                "endOffset": 49
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2019-06-07T08:13:03+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI8Qm2GHyQxqCjJh",
+            "rule": "javascript:S2589",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/MainController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 517,
+            "hash": "4ce7ea3cd290701e9a472dde490f9094",
+            "textRange": {
+                "startLine": 517,
+                "endLine": 517,
+                "startOffset": 46,
+                "endOffset": 60
+            },
+            "flows": [
+                {
+                    "locations": [
+                        {
+                            "component": "elhub-ui-web-portal:app/view/main/MainController.js",
+                            "textRange": {
+                                "startLine": 515,
+                                "endLine": 515,
+                                "startOffset": 10,
+                                "endOffset": 24
+                            },
+                            "msg": "Evaluated here to be truthy"
+                        }
+                    ]
+                }
+            ],
+            "status": "OPEN",
+            "message": "This always evaluates to truthy. Consider refactoring this code.",
+            "effort": "10min",
+            "debt": "10min",
+            "tags": [
+                "cwe",
+                "redundant"
+            ],
+            "creationDate": "2019-06-06T11:41:47+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-94bNy0zqeFLP7F",
+            "rule": "kotlin:S100",
+            "severity": "MINOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/ManualChangeBalanceResponsibilityContractProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 136,
+            "hash": "e2e9af3b7fb3ca87b4073ef779263df2",
+            "textRange": {
+                "startLine": 136,
+                "endLine": 136,
+                "startOffset": 12,
+                "endOffset": 24
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename function \"BPMListTasks\" to match the regular expression ^[a-z][a-zA-Z0-9]*$",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2019-05-03T07:53:46+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-94bNy0zqeFLP7E",
+            "rule": "kotlin:S125",
+            "severity": "MAJOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/ManualChangeBalanceResponsibilityContractProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 144,
+            "hash": "22f6d70044cef0223cb777f068604685",
+            "textRange": {
+                "startLine": 144,
+                "endLine": 146,
+                "startOffset": 0,
+                "endOffset": 11
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove this commented out code.",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "misra",
+                "unused"
+            ],
+            "creationDate": "2019-05-03T07:53:46+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9ebNy0zqeFLP6-",
+            "rule": "kotlin:S125",
+            "severity": "MAJOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/StructureDataUpdateBulkProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 63,
+            "hash": "22f6d70044cef0223cb777f068604685",
+            "textRange": {
+                "startLine": 63,
+                "endLine": 65,
+                "startOffset": 0,
+                "endOffset": 11
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove this commented out code.",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "misra",
+                "unused"
+            ],
+            "creationDate": "2019-03-25T15:05:28+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9ubNy0zqeFLP7B",
+            "rule": "kotlin:S100",
+            "severity": "MINOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/RequestToElhubApproval.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 27,
+            "hash": "e2e9af3b7fb3ca87b4073ef779263df2",
+            "textRange": {
+                "startLine": 27,
+                "endLine": 27,
+                "startOffset": 12,
+                "endOffset": 24
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename function \"BPMListTasks\" to match the regular expression ^[a-z][a-zA-Z0-9]*$",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2018-08-16T08:35:15+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo--AbNy0zqeFLP7G",
+            "rule": "kotlin:S1135",
+            "severity": "INFO",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/eip/JobAgumentsAndExecution.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 7,
+            "hash": "888fc27b5c08db85f28e237c50e8249e",
+            "textRange": {
+                "startLine": 7,
+                "endLine": 7,
+                "startOffset": 3,
+                "endOffset": 7
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Complete the task associated to this TODO comment.",
+            "tags": [
+                "cwe"
+            ],
+            "creationDate": "2018-08-16T08:35:15+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9YbNy0zqeFLP68",
+            "rule": "kotlin:S1135",
+            "severity": "INFO",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/ChangeBsolrForMgaProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 33,
+            "hash": "6139ef644a4f388c932dfb9ca0bf45f9",
+            "textRange": {
+                "startLine": 33,
+                "endLine": 33,
+                "startOffset": 7,
+                "endOffset": 11
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Complete the task associated to this TODO comment.",
+            "tags": [
+                "cwe"
+            ],
+            "creationDate": "2018-08-16T08:24:09+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9YbNy0zqeFLP69",
+            "rule": "kotlin:S100",
+            "severity": "MINOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/ChangeBsolrForMgaProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 36,
+            "hash": "e2e9af3b7fb3ca87b4073ef779263df2",
+            "textRange": {
+                "startLine": 36,
+                "endLine": 36,
+                "startOffset": 12,
+                "endOffset": 24
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename function \"BPMListTasks\" to match the regular expression ^[a-z][a-zA-Z0-9]*$",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2018-08-16T08:24:09+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9obNy0zqeFLP7A",
+            "rule": "kotlin:S100",
+            "severity": "MINOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/ChangeGridOwnerForMgaProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 50,
+            "hash": "e2e9af3b7fb3ca87b4073ef779263df2",
+            "textRange": {
+                "startLine": 50,
+                "endLine": 50,
+                "startOffset": 12,
+                "endOffset": 24
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename function \"BPMListTasks\" to match the regular expression ^[a-z][a-zA-Z0-9]*$",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2018-08-16T08:24:09+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9zbNy0zqeFLP7D",
+            "rule": "kotlin:S100",
+            "severity": "MINOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/MoveBalanceSupplierPortfolioProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 59,
+            "hash": "e2e9af3b7fb3ca87b4073ef779263df2",
+            "textRange": {
+                "startLine": 59,
+                "endLine": 59,
+                "startOffset": 12,
+                "endOffset": 24
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename function \"BPMListTasks\" to match the regular expression ^[a-z][a-zA-Z0-9]*$",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2018-08-16T08:24:09+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9zbNy0zqeFLP7C",
+            "rule": "kotlin:S125",
+            "severity": "MAJOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/MoveBalanceSupplierPortfolioProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 60,
+            "hash": "02d01a5ce24d4b7d955c82c5ef7b9af3",
+            "textRange": {
+                "startLine": 60,
+                "endLine": 60,
+                "startOffset": 12,
+                "endOffset": 148
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove this commented out code.",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "misra",
+                "unused"
+            ],
+            "creationDate": "2018-08-16T08:24:09+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9ebNy0zqeFLP6_",
+            "rule": "kotlin:S100",
+            "severity": "MINOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/StructureDataUpdateBulkProcessPopup.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 55,
+            "hash": "6a71bcf86562fa0ff3fa852ed3ca6873",
+            "textRange": {
+                "startLine": 55,
+                "endLine": 55,
+                "startOffset": 12,
+                "endOffset": 24
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename function \"BpmListTasks\" to match the regular expression ^[a-z][a-zA-Z0-9]*$",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2018-08-16T08:24:09+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-9QbNy0zqeFLP67",
+            "rule": "kotlin:S1135",
+            "severity": "INFO",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/BasePage.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 11,
+            "hash": "ef7bacf3f22df8c943bbd7edf6988062",
+            "textRange": {
+                "startLine": 11,
+                "endLine": 11,
+                "startOffset": 11,
+                "endOffset": 15
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Complete the task associated to this TODO comment.",
+            "tags": [
+                "cwe"
+            ],
+            "creationDate": "2018-08-16T08:20:52+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-8PbNy0zqeFLP60",
+            "rule": "kotlin:S125",
+            "severity": "MAJOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMarketActivityTab.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 22,
+            "hash": "523048e7f5ca9550505f2d8ea6d587e7",
+            "textRange": {
+                "startLine": 22,
+                "endLine": 31,
+                "startOffset": 4,
+                "endOffset": 6
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove this commented out code.",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "misra",
+                "unused"
+            ],
+            "creationDate": "2018-06-14T21:49:18+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-8GbNy0zqeFLP6y",
+            "rule": "kotlin:S125",
+            "severity": "MAJOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMeteringValueTab.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 16,
+            "hash": "9d71492e235788380c4944b631a6be4e",
+            "textRange": {
+                "startLine": 16,
+                "endLine": 17,
+                "startOffset": 4,
+                "endOffset": 55
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove this commented out code.",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "misra",
+                "unused"
+            ],
+            "creationDate": "2018-06-14T21:49:18+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-8GbNy0zqeFLP6z",
+            "rule": "kotlin:S125",
+            "severity": "MAJOR",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMeteringValueTab.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 19,
+            "hash": "e792c1ee8da5b662d4389aa88d7869b5",
+            "textRange": {
+                "startLine": 19,
+                "endLine": 20,
+                "startOffset": 4,
+                "endOffset": 40
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove this commented out code.",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "misra",
+                "unused"
+            ],
+            "creationDate": "2018-06-14T21:49:18+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-8mbNy0zqeFLP61",
+            "rule": "kotlin:S1192",
+            "severity": "CRITICAL",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 25,
+            "hash": "96acdc9266bcc02b797f768e25b46f5e",
+            "textRange": {
+                "startLine": 25,
+                "endLine": 25,
+                "startOffset": 20,
+                "endOffset": 154
+            },
+            "flows": [
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+                            "textRange": {
+                                "startLine": 31,
+                                "endLine": 31,
+                                "startOffset": 20,
+                                "endOffset": 154
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                },
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+                            "textRange": {
+                                "startLine": 37,
+                                "endLine": 37,
+                                "startOffset": 20,
+                                "endOffset": 154
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                },
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+                            "textRange": {
+                                "startLine": 43,
+                                "endLine": 43,
+                                "startOffset": 20,
+                                "endOffset": 154
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                },
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+                            "textRange": {
+                                "startLine": 49,
+                                "endLine": 49,
+                                "startOffset": 20,
+                                "endOffset": 154
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                },
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+                            "textRange": {
+                                "startLine": 55,
+                                "endLine": 55,
+                                "startOffset": 20,
+                                "endOffset": 154
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                },
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+                            "textRange": {
+                                "startLine": 61,
+                                "endLine": 61,
+                                "startOffset": 20,
+                                "endOffset": 154
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                },
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+                            "textRange": {
+                                "startLine": 67,
+                                "endLine": 67,
+                                "startOffset": 20,
+                                "endOffset": 154
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                },
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+                            "textRange": {
+                                "startLine": 73,
+                                "endLine": 73,
+                                "startOffset": 20,
+                                "endOffset": 154
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                }
+            ],
+            "status": "OPEN",
+            "message": "Define a constant instead of duplicating this literal \"//div[./div[./div[./div[./div[./div[./h2[contains(text(),'Metering point information')]]]]]]]//div[./label[.//span[contains(text(), \" 9 times.",
+            "effort": "18min",
+            "debt": "18min",
+            "tags": [
+                "design"
+            ],
+            "creationDate": "2018-03-10T21:07:19+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-80bNy0zqeFLP62",
+            "rule": "kotlin:S1192",
+            "severity": "CRITICAL",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 88,
+            "hash": "5e2f04747c5df70aa2cc2c2b592e37e5",
+            "textRange": {
+                "startLine": 88,
+                "endLine": 88,
+                "startOffset": 18,
+                "endOffset": 136
+            },
+            "flows": [
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+                            "textRange": {
+                                "startLine": 93,
+                                "endLine": 93,
+                                "startOffset": 18,
+                                "endOffset": 136
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                },
+                {
+                    "locations": [
+                        {
+                            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+                            "textRange": {
+                                "startLine": 98,
+                                "endLine": 98,
+                                "startOffset": 18,
+                                "endOffset": 136
+                            },
+                            "msg": "Duplication"
+                        }
+                    ]
+                }
+            ],
+            "status": "OPEN",
+            "message": "Define a constant instead of duplicating this literal \"//div[@class='x-panel search-result mp-search-grid x-panel-default x-grid']/div/div[contains(@class,'body')]/div/div\" 3 times.",
+            "effort": "6min",
+            "debt": "6min",
+            "tags": [
+                "design"
+            ],
+            "creationDate": "2018-03-10T21:07:19+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJd",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 248,
+            "hash": "a262bdbe1df1d3792c3cd67d1fe97aab",
+            "textRange": {
+                "startLine": 248,
+                "endLine": 248,
+                "startOffset": 18,
+                "endOffset": 55
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2018-01-23T06:11:47+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-81bNy0zqeFLP63",
+            "rule": "kotlin:S1135",
+            "severity": "INFO",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 80,
+            "hash": "186311b81dc57aaea95c5bf0666102eb",
+            "textRange": {
+                "startLine": 80,
+                "endLine": 80,
+                "startOffset": 5,
+                "endOffset": 9
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Complete the task associated to this TODO comment.",
+            "tags": [
+                "cwe"
+            ],
+            "creationDate": "2018-01-11T21:00:57+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-81bNy0zqeFLP64",
+            "rule": "kotlin:S1135",
+            "severity": "INFO",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 87,
+            "hash": "186311b81dc57aaea95c5bf0666102eb",
+            "textRange": {
+                "startLine": 87,
+                "endLine": 87,
+                "startOffset": 5,
+                "endOffset": 9
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Complete the task associated to this TODO comment.",
+            "tags": [
+                "cwe"
+            ],
+            "creationDate": "2018-01-11T21:00:57+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-81bNy0zqeFLP65",
+            "rule": "kotlin:S1135",
+            "severity": "INFO",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 92,
+            "hash": "186311b81dc57aaea95c5bf0666102eb",
+            "textRange": {
+                "startLine": 92,
+                "endLine": 92,
+                "startOffset": 5,
+                "endOffset": 9
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Complete the task associated to this TODO comment.",
+            "tags": [
+                "cwe"
+            ],
+            "creationDate": "2018-01-11T21:00:57+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXUCo-81bNy0zqeFLP66",
+            "rule": "kotlin:S1135",
+            "severity": "INFO",
+            "component": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+            "project": "no.elhub.test:test-selenium-page-model",
+            "line": 97,
+            "hash": "186311b81dc57aaea95c5bf0666102eb",
+            "textRange": {
+                "startLine": 97,
+                "endLine": 97,
+                "startOffset": 5,
+                "endOffset": 9
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Complete the task associated to this TODO comment.",
+            "tags": [
+                "cwe"
+            ],
+            "creationDate": "2018-01-11T21:00:57+0000",
+            "updateDate": "2020-10-07T10:38:05+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI5Um2GHyQxqCjJS",
+            "rule": "javascript:S1117",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/util/ValidationUtil.js",
+            "project": "elhub-ui-web-portal",
+            "line": 117,
+            "hash": "f76096b9cc3253e295a69bedab530b02",
+            "textRange": {
+                "startLine": 117,
+                "endLine": 117,
+                "startOffset": 32,
+                "endOffset": 43
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "'birthNumber' is already declared in the upper scope.",
+            "effort": "5min",
+            "debt": "5min",
+            "tags": [
+                "pitfall",
+                "suspicious"
+            ],
+            "creationDate": "2017-06-05T10:40:27+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJY",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 207,
+            "hash": "943a3802b2ced1ada535aad3b1a7cd8d",
+            "textRange": {
+                "startLine": 207,
+                "endLine": 207,
+                "startOffset": 8,
+                "endOffset": 45
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2017-03-08T12:54:36+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJf",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 329,
+            "hash": "6b704951a66077a1761f1412ca2fa877",
+            "textRange": {
+                "startLine": 329,
+                "endLine": 329,
+                "startOffset": 19,
+                "endOffset": 52
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2017-03-07T09:23:22+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJW",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 201,
+            "hash": "77b0ef7227d7f86d9bc029c03f4af73c",
+            "textRange": {
+                "startLine": 201,
+                "endLine": 201,
+                "startOffset": 8,
+                "endOffset": 45
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2016-12-06T16:33:54+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJX",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 204,
+            "hash": "d60ba5de7137ab21036bfd5963386792",
+            "textRange": {
+                "startLine": 204,
+                "endLine": 204,
+                "startOffset": 8,
+                "endOffset": 45
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2016-12-06T16:33:54+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJZ",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 210,
+            "hash": "ebe45165495dbe27ddc7d5dc62e9c3fd",
+            "textRange": {
+                "startLine": 210,
+                "endLine": 210,
+                "startOffset": 8,
+                "endOffset": 49
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2016-12-06T16:33:54+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJb",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 236,
+            "hash": "6876af5167a8a784bc0ace00f85861ad",
+            "textRange": {
+                "startLine": 236,
+                "endLine": 236,
+                "startOffset": 8,
+                "endOffset": 47
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2016-12-06T16:33:54+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJc",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 238,
+            "hash": "825ea4654be4e01f1fa26b7cae914e59",
+            "textRange": {
+                "startLine": 238,
+                "endLine": 238,
+                "startOffset": 15,
+                "endOffset": 46
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2016-12-06T16:33:54+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHI7rm2GHyQxqCjJe",
+            "rule": "javascript:S2692",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "project": "elhub-ui-web-portal",
+            "line": 328,
+            "hash": "f19600659b80fe9c249a64515628657d",
+            "textRange": {
+                "startLine": 328,
+                "endLine": 328,
+                "startOffset": 21,
+                "endOffset": 56
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "This check ignores index 0; consider using 'includes' method to make this check safe and explicit.",
+            "effort": "2min",
+            "debt": "2min",
+            "tags": [
+                "suspicious"
+            ],
+            "creationDate": "2016-12-06T16:33:54+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "CODE_SMELL",
+            "organization": "default-organization",
+            "fromHotspot": false
+        },
+        {
+            "key": "AXclHIztm2GHyQxqCjJR",
+            "rule": "javascript:S2259",
+            "severity": "MAJOR",
+            "component": "elhub-ui-web-portal:app/proxy/ElhubRestSearch.js",
+            "project": "elhub-ui-web-portal",
+            "line": 14,
+            "hash": "05ecea1209b547f1f8fd3166688580a5",
+            "textRange": {
+                "startLine": 14,
+                "endLine": 14,
+                "startOffset": 22,
+                "endOffset": 26
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "TypeError can be thrown as \"sort\" might be null or undefined here.",
+            "effort": "10min",
+            "debt": "10min",
+            "tags": [
+                "cwe"
+            ],
+            "creationDate": "2016-08-16T06:10:23+0000",
+            "updateDate": "2021-01-21T13:21:54+0000",
+            "type": "BUG",
+            "organization": "default-organization",
+            "fromHotspot": false
+        }
+    ],
+    "components": [
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMarketActivityTab.kt",
+            "uuid": "AXUCo-0ObNy0zqeFLP5z",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "DailyFollowUpMarketActivityTab.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMarketActivityTab.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMarketActivityTab.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMeteringValueTab.kt",
+            "uuid": "AXUCo-0ObNy0zqeFLP5x",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "DailyFollowUpMeteringValueTab.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMeteringValueTab.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/portal/marketactivity/DailyFollowUpMeteringValueTab.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+            "uuid": "AXUCo-0PbNy0zqeFLP6B",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "MeteringPointInformationPage.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointInformationPage.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "elhub-ui-web-portal:app/view/main/PageController.js",
+            "uuid": "AXclHIqLm2GHyQxqCjJI",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "PageController.js",
+            "longName": "app/view/main/PageController.js",
+            "path": "app/view/main/PageController.js"
+        },
+        {
+            "organization": "default-organization",
+            "key": "elhub-ui-web-portal:app/view/main/MainController.js",
+            "uuid": "AXclHIqLm2GHyQxqCjJJ",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "MainController.js",
+            "longName": "app/view/main/MainController.js",
+            "path": "app/view/main/MainController.js"
+        },
+        {
+            "organization": "default-organization",
+            "key": "elhub-ui-web-portal:app/util/ValidationUtil.js",
+            "uuid": "AXclHIqHm2GHyQxqCjGy",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "ValidationUtil.js",
+            "longName": "app/util/ValidationUtil.js",
+            "path": "app/util/ValidationUtil.js"
+        },
+        {
+            "organization": "default-organization",
+            "key": "elhub-ui-web-portal:app/proxy/ElhubRestSearch.js",
+            "uuid": "AXclHIqBm2GHyQxqCjDP",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "ElhubRestSearch.js",
+            "longName": "app/proxy/ElhubRestSearch.js",
+            "path": "app/proxy/ElhubRestSearch.js"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/util/WebDriverUtil.kt",
+            "uuid": "AXUCo-z1bNy0zqeFLP42",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "WebDriverUtil.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/util/WebDriverUtil.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/util/WebDriverUtil.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/eip/JobAgumentsAndExecution.kt",
+            "uuid": "AXUCo-0QbNy0zqeFLP6q",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "JobAgumentsAndExecution.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/eip/JobAgumentsAndExecution.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/eip/JobAgumentsAndExecution.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "elhub-ui-web-portal:app/model/reconciliation/ReconciliaionController.js",
+            "uuid": "AXclHIqJm2GHyQxqCjHh",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "ReconciliaionController.js",
+            "longName": "app/model/reconciliation/ReconciliaionController.js",
+            "path": "app/model/reconciliation/ReconciliaionController.js"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/RequestToElhubApproval.kt",
+            "uuid": "AXUCo-0QbNy0zqeFLP6k",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "RequestToElhubApproval.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/bpm/RequestToElhubApproval.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/bpm/RequestToElhubApproval.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/MoveBalanceSupplierPortfolioProcessPopup.kt",
+            "uuid": "AXUCo-0QbNy0zqeFLP6l",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "MoveBalanceSupplierPortfolioProcessPopup.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/bpm/MoveBalanceSupplierPortfolioProcessPopup.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/bpm/MoveBalanceSupplierPortfolioProcessPopup.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/ManualChangeBalanceResponsibilityContractProcessPopup.kt",
+            "uuid": "AXUCo-0QbNy0zqeFLP6m",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "ManualChangeBalanceResponsibilityContractProcessPopup.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/bpm/ManualChangeBalanceResponsibilityContractProcessPopup.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/bpm/ManualChangeBalanceResponsibilityContractProcessPopup.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "elhub-ui-web-portal",
+            "uuid": "AXclHIeJj22M5soxtyPo",
+            "enabled": true,
+            "qualifier": "TRK",
+            "name": "test-ui-web-portal",
+            "longName": "test-ui-web-portal"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/ChangeBsolrForMgaProcessPopup.kt",
+            "uuid": "AXUCo-0QbNy0zqeFLP6g",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "ChangeBsolrForMgaProcessPopup.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/bpm/ChangeBsolrForMgaProcessPopup.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/bpm/ChangeBsolrForMgaProcessPopup.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/StructureDataUpdateBulkProcessPopup.kt",
+            "uuid": "AXUCo-0QbNy0zqeFLP6h",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "StructureDataUpdateBulkProcessPopup.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/bpm/StructureDataUpdateBulkProcessPopup.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/bpm/StructureDataUpdateBulkProcessPopup.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model",
+            "uuid": "AXUCo-ODz-5CAv44ZZAo",
+            "enabled": true,
+            "qualifier": "TRK",
+            "name": "test-selenium-page-model",
+            "longName": "test-selenium-page-model"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/bpm/ChangeGridOwnerForMgaProcessPopup.kt",
+            "uuid": "AXUCo-0QbNy0zqeFLP6j",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "ChangeGridOwnerForMgaProcessPopup.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/bpm/ChangeGridOwnerForMgaProcessPopup.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/bpm/ChangeGridOwnerForMgaProcessPopup.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+            "uuid": "AXUCo-0PbNy0zqeFLP6I",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "MeteringPointOverviewPage.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/portal/meteringpoint/MeteringPointOverviewPage.kt"
+        },
+        {
+            "organization": "default-organization",
+            "key": "no.elhub.test:test-selenium-page-model:src/main/kotlin/no/elhub/test/selenium/BasePage.kt",
+            "uuid": "AXUCo-0QbNy0zqeFLP6c",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "BasePage.kt",
+            "longName": "src/main/kotlin/no/elhub/test/selenium/BasePage.kt",
+            "path": "src/main/kotlin/no/elhub/test/selenium/BasePage.kt"
+        }
+    ],
+    "facets": [
+        {
+            "property": "severities",
+            "values": [
+                {
+                    "val": "MAJOR",
+                    "count": 24
+                },
+                {
+                    "val": "INFO",
+                    "count": 7
+                },
+                {
+                    "val": "MINOR",
+                    "count": 6
+                },
+                {
+                    "val": "CRITICAL",
+                    "count": 2
+                },
+                {
+                    "val": "BLOCKER",
+                    "count": 0
+                }
+            ]
+        }
+    ]
+}
