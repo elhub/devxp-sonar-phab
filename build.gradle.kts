@@ -24,7 +24,6 @@ val allureVersion = "2.13.8"
 val kotestVersion = "4.3.2"
 val mavenPubName = "mavenExecutable"
 
-group = "no.elhub.dev.tools"
 description = "Retrieve SonarScan results from Sonarqube and post them to Phabricator."
 val mainClassName = "no.elhub.dev.tools.SonarPhabricatorRunner"
 
@@ -48,12 +47,6 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    //sourceSets["main"].java {
-    //    srcDir("build/resources/test")
-    //}
-    //sourceSets["test"].java {
-    //    srcDir("build/resources/test")
-    //}
 }
 
 tasks.withType<KotlinCompile> {
@@ -138,8 +131,10 @@ tasks.withType<DependencyUpdatesTask> {
 publishing {
     publications {
         create<MavenPublication>(mavenPubName) {
-            from(components["java"])
-            groupId = ""
+            artifact(file("$buildDir/libs/${rootProject.name}-$version.jar"))
+            artifactId = rootProject.name
+            version = version.toString()
+
         }
     }
 }
@@ -152,7 +147,7 @@ artifactory {
         defaults(delegateClosureOf<GroovyObject> {
             invokeMethod("publications", mavenPubName)
             setProperty("publishArtifacts", true)
-            setProperty("publishPom", true)
+            setProperty("publishPom", false)
         })
     })
 }
