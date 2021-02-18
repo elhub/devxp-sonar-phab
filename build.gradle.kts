@@ -139,6 +139,7 @@ publishing {
     publications {
         create<MavenPublication>(mavenPubName) {
             from(components["java"])
+            groupId = ""
         }
     }
 }

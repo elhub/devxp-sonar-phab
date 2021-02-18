@@ -10,6 +10,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 import no.elhub.common.build.configuration.CreateExeGradle
+import no.elhub.common.build.configuration.UnitTestGradle
 
 version = "2020.2"
 
@@ -19,14 +20,40 @@ project {
         param("teamcity.ui.settings.readOnly", "true")
     }
 
-    buildType(
-        CreateExeGradle(
-            CreateExeGradle.Config(
-                id = "CreateExe",
-                name = "Assemble Executable",
-                vcsRoot = DslContext.settingsRoot
+    val buildChain = sequential {
+
+        buildType(
+            UnitTestGradle(
+                UnitTestGradle.Config(
+                    id = "UnitTest",
+                    name = "Unit Test"
+                )
             )
         )
-    )
 
+        buildType(
+            SonarScan(
+                SonarScan.Config(
+                    id = "SonarScan",
+                    name = "Code Analysis",
+                    vcsRoot = DslContext.settingsRoot,
+                    sonarId = "dev-tools-sonar-phab",
+                    sonarProjectSources = "app"
+                )
+            )
+        )
+
+        buildType(
+            AssembleGradleExecutable(
+                AssembleGradleExecutable.Config(
+                    id = "AssembleGradleExecutable",
+                    name = "Assemble",
+                    vcsRoot = DslContext.settingsRoot
+                )
+            )
+        )
+
+    }
+
+    buildChain.buildTypes().forEach { buildType(it) }
 }
