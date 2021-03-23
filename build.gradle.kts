@@ -1,17 +1,11 @@
-import edu.sc.seis.launch4j.tasks.DefaultLaunch4jTask
 import com.adarshr.gradle.testlogger.theme.ThemeType
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jfrog.build.extractor.clientConfiguration.ArtifactoryClientConfiguration
-import org.jfrog.gradle.plugin.artifactory.ArtifactoryPlugin
 import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
 import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
-import org.jfrog.gradle.plugin.artifactory.task.ArtifactoryTask
-import groovy.lang.GroovyObject
 
 plugins {
-    kotlin("jvm") version "1.4.21-2"
-    id("edu.sc.seis.launch4j") version "2.4.6"
+    kotlin("jvm") version "1.4.31"
     id("com.github.ben-manes.versions") version "0.36.0"
     id("jacoco")
     id("com.adarshr.test-logger") version "2.1.1"
@@ -25,25 +19,30 @@ val kotestVersion = "4.3.2"
 val mavenPubName = "mavenExecutable"
 
 description = "Retrieve SonarScan results from Sonarqube and post them to Phabricator."
-val mainClassName = "no.elhub.dev.tools.SonarPhabricatorRunner"
+val mainClassName = "no.elhub.tools.sonarphab.SonarPhabricatorKt"
 
 repositories {
     maven("https://jfrog.elhub.cloud/artifactory/elhub-mvn")
 }
 
 dependencies {
-    implementation("info.picocli:picocli:4.+")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.21-2")
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.apache.httpcomponents:httpclient:4.3.6")
+    implementation("info.picocli:picocli:4.6.1")
+    implementation("org.slf4j:slf4j-api:1.7.30")
+    implementation("org.slf4j:slf4j-simple:1.7.30")
+    implementation("commons-io:commons-io:2.8.0")
     implementation("org.json:json:20200518")
-    implementation("commons-io:commons-io:2.6")
     implementation("com.fasterxml.jackson.core:jackson-core:2.11.3")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.11.3")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-extensions-allure-jvm:$kotestVersion")
 }
 
-
+/*
+ * Compile setup
+ */
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -56,13 +55,15 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+/*
+ * Test setup
+ */
 tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = true
     }
-
 }
 
 jacoco {
@@ -92,6 +93,11 @@ allure {
             "$allureVersion/allure-commandline-$allureVersion.zip"
 }
 
+/*
+ * Application Code
+ * - Create a fat jar for deployment
+ * - Run it after the jar command and as part of the assemble task
+ */
 val fatJar = task("fatJar", type = Jar::class) {
     archiveBaseName.set(rootProject.name)
     manifest {
@@ -102,39 +108,15 @@ val fatJar = task("fatJar", type = Jar::class) {
     from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
     with(tasks.jar.get() as CopySpec)
+    mustRunAfter(tasks.get("jar"))
 }
 
-tasks.withType<DefaultLaunch4jTask> {
-    outfile = "${rootProject.name}.exe"
-    headerType = "console"
-    mainClassName = mainClassName
-    productName = rootProject.description
-}
-
-artifacts {
-    add("archives", File("build/launch4j/${rootProject.name}.exe"))
-}
-
-fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
-    val regex = "^[0-9,.v-]+(-r|-jre)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(version)
-    return isStable.not()
-}
-
-tasks.withType<DependencyUpdatesTask> {
-    rejectVersionIf {
-        isNonStable(candidate.version)
-    }
-}
+tasks.get("assemble").dependsOn(tasks.get("fatJar"))
 
 publishing {
     publications {
         create<MavenPublication>(mavenPubName) {
-            artifact(file("$buildDir/libs/${rootProject.name}-$version.jar"))
-            artifactId = rootProject.name
-            version = version.toString()
-
+            from(components["java"])
         }
     }
 }
@@ -144,7 +126,7 @@ fun Project.artifactory(configure: ArtifactoryPluginConvention.() -> Unit): Unit
 
 artifactory {
     publish(delegateClosureOf<PublisherConfig> {
-        defaults(delegateClosureOf<GroovyObject> {
+        defaults(delegateClosureOf<groovy.lang.GroovyObject> {
             invokeMethod("publications", mavenPubName)
             setProperty("publishArtifacts", true)
             setProperty("publishPom", false)
@@ -152,3 +134,6 @@ artifactory {
     })
 }
 
+tasks.get("artifactoryPublish").dependsOn(tasks.get("assemble"))
+
+tasks.get("publish").dependsOn(tasks.get("artifactoryPublish"))

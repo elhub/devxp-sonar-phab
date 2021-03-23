@@ -20,7 +20,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package no.elhub.dev.tools
+package no.elhub.tools.sonarphab
 
 import picocli.CommandLine
 import java.io.File
@@ -39,7 +39,8 @@ import java.time.ZonedDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Properties
-import no.elhub.dev.tools.SonarPhabException
+import no.elhub.tools.sonarphab.SonarPhabException
+import java.util.concurrent.Callable
 
 const val POLL_ITERATIONS = 120 // Number of times to poll for a response
 const val POLL_SLEEP: Long = 500 // Time to wait between polls for a response
@@ -75,28 +76,18 @@ var issues = ArrayList<SonarIssue>()
         "\nDeveloped by Elhub"
     ]
 )
-
-class SonarPhabricatorRunner : Runnable {
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["output usage information"])
+class SonarPhabricator : Callable<Int> {
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["output usage information"]
+    )
     var help = false
 
-    /**
-     * Application entry point for sonar-phab
-     *
-     * @param args an array of String arguments to be parsed
-     */
-    @Suppress("SpreadOperator") // Should not complain about this in a main class
-    companion object {
-        @JvmStatic
-        fun main(args: Array<String>) {
-            CommandLine(SonarPhabricatorRunner()).execute(*args)
-        }
-    }
-
-    override fun run() {
+    override fun call(): Int {
         if (help) {
             println(HELP_MESSAGE)
-            exitProcess(0)
+            return 0
         }
         println("Start processing")
         loadProperties()
@@ -108,7 +99,7 @@ class SonarPhabricatorRunner : Runnable {
         val parser = factory.createParser(URL(sonarResult))
         issues = SonarIssue.retrieveIssues(parser)
         writeToPhabricator(ConduitClient(phabricatorUrl, conduitToken))
-        exitProcess(0)
+        return 0
     }
 
 }
@@ -206,3 +197,5 @@ fun writeToPhabricator(conduitClient: ConduitClient) {
                 "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
     )
 }
+
+fun main(args: Array<String>): Unit = exitProcess(CommandLine(SonarPhabricator()).execute(*args))

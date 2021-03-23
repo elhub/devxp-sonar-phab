@@ -20,7 +20,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package no.elhub.dev.tools
+package no.elhub.tools.sonarphab
 
 /** Severity of the Phabricator Lint issues
 */

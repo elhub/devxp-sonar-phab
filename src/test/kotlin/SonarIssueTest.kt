@@ -1,4 +1,4 @@
-package no.elhub.common.build.configuration
+package no.elhub.tools.sonarphab
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParseException
@@ -8,8 +8,8 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.core.spec.style.DescribeSpec
 import java.io.*
-import no.elhub.dev.tools.PhabricatorLintSeverity
-import no.elhub.dev.tools.SonarIssue
+import no.elhub.tools.sonarphab.PhabricatorLintSeverity
+import no.elhub.tools.sonarphab.SonarIssue
 
 class SonarIssueTest : DescribeSpec({
 
