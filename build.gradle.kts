@@ -16,7 +16,8 @@ plugins {
 
 val allureVersion = "2.13.8"
 val kotestVersion = "4.3.2"
-val mavenPubName = "mavenExecutable"
+val jacksonVersion = "2.11.3"
+val mavenPubName = "mavenJavaBinary"
 
 description = "Retrieve SonarScan results from Sonarqube and post them to Phabricator."
 val mainClassName = "no.elhub.tools.sonarphab.SonarPhabricatorKt"
@@ -34,8 +35,8 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.30")
     implementation("commons-io:commons-io:2.8.0")
     implementation("org.json:json:20200518")
-    implementation("com.fasterxml.jackson.core:jackson-core:2.11.3")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.11.3")
+    implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-extensions-allure-jvm:$kotestVersion")
 }
@@ -121,16 +122,22 @@ publishing {
     }
 }
 
-fun Project.artifactory(configure: ArtifactoryPluginConvention.() -> Unit): Unit =
-    configure(project.convention.getPluginByName<ArtifactoryPluginConvention>("artifactory"))
-
 artifactory {
+    setContextUrl("https://jfrog.elhub.cloud/artifactory")
     publish(delegateClosureOf<PublisherConfig> {
+        repository(delegateClosureOf<groovy.lang.GroovyObject> {
+            setProperty("repoKey", project.findProperty("binaryrepo") ?: "elhub-bin-test-local")
+            setProperty("username", project.findProperty("mavenuser") ?: "nouser")
+            setProperty("password", project.findProperty("mavenpass") ?: "nopass")
+        })
         defaults(delegateClosureOf<groovy.lang.GroovyObject> {
             invokeMethod("publications", mavenPubName)
             setProperty("publishArtifacts", true)
             setProperty("publishPom", false)
         })
+    })
+    resolve(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig> {
+        setProperty("repoKey", "repo")
     })
 }
 
