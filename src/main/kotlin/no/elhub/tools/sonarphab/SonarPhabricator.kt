@@ -110,6 +110,7 @@ fun loadProperties() {
     properties.load(inputStream)
     taskResultUri = properties["ceTaskUrl"].toString()
     sonarUrl = properties["serverUrl"].toString()
+    sonarId = properties["projectKey"].toString()
     sonarBranch = properties["branch"].toString()
     println("$taskResultUri")
 }
