@@ -10,16 +10,19 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.sequential
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.version
-import no.elhub.common.build.configuration.SonarScan
-import no.elhub.common.build.configuration.UnitTestGradle
-import no.elhub.common.build.configuration.AssembleGradle
+import no.elhub.common.build.configuration.Assemble
 import no.elhub.common.build.configuration.AutoRelease
-import no.elhub.common.build.configuration.constants.GlobalTokens
 import no.elhub.common.build.configuration.ProjectType
+import no.elhub.common.build.configuration.ProjectType.GRADLE
+import no.elhub.common.build.configuration.SonarScan
+import no.elhub.common.build.configuration.UnitTest
+import no.elhub.common.build.configuration.constants.GlobalTokens
 
 version = "2020.2"
 
 project {
+
+    val projectId = "no.elhub.tools:dev-tools-sonar-phab"
 
     params {
         param("teamcity.ui.settings.readOnly", "true")
@@ -28,9 +31,10 @@ project {
     val buildChain = sequential {
 
         buildType(
-            UnitTestGradle(
-                UnitTestGradle.Config(
-                    vcsRoot = DslContext.settingsRoot
+            UnitTest(
+                UnitTest.Config(
+                    vcsRoot = DslContext.settingsRoot,
+                    type = GRADLE
                 )
             )
         )
@@ -39,16 +43,17 @@ project {
             SonarScan(
                 SonarScan.Config(
                     vcsRoot = DslContext.settingsRoot,
-                    sonarId = "no.elhub.tools:dev-tools-sonar-phab",
-                    sonarProjectSources = "src"
+                    type = GRADLE,
+                    sonarId = projectId
                 )
             )
         )
 
         buildType(
-            AssembleGradle(
-                AssembleGradle.Config(
-                    vcsRoot = DslContext.settingsRoot
+            Assemble(
+                Assemble.Config(
+                    vcsRoot = DslContext.settingsRoot,
+                    type = GRADLE
                 )
             )
         )
@@ -58,16 +63,19 @@ project {
             param("secure:passphrase", GlobalTokens.githubSshPassphrase)
         })
 
+
         buildType(
             AutoRelease(
                 AutoRelease.Config(
                     vcsRoot = DslContext.settingsRoot,
                     type = ProjectType.GRADLE,
-                    sshAgent = githubAuth,
-                    trigger = VcsTrigger ()
+                    sshAgent = githubAuth
                 )
-            )
-        )
+            ) {
+
+                VcsTrigger ()
+
+            })
 
     }
 
