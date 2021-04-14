@@ -158,13 +158,14 @@ private fun parseTask(parser: JsonParser): Boolean {
 }
 
 fun writeToPhabricator(conduitClient: ConduitClient) {
-    if (issues.isEmpty())
+    if (issues.isEmpty()) {
         conduitClient.postComment(
             sonarBranch,
             "SonarQube did not find any issues. Great job!\n" +
                     "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
         )
-
+        return
+    }
     val lintResults = JSONArray()
     var errors = 0
     var warnings = 0
