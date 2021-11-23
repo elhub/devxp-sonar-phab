@@ -16,15 +16,16 @@ import no.elhub.common.build.configuration.AutoRelease
 import no.elhub.common.build.configuration.CodeReview
 import no.elhub.common.build.configuration.ProjectType
 import no.elhub.common.build.configuration.ProjectType.GRADLE
+import no.elhub.common.build.configuration.PublishDocs
 import no.elhub.common.build.configuration.SonarScan
 import no.elhub.common.build.configuration.UnitTest
 import no.elhub.common.build.configuration.constants.GlobalTokens
 
-version = "2020.2"
+version = "2021.2"
 
 project {
 
-    val projectId = "no.elhub.tools:dev-tools-sonar-phab"
+    val projectId = "no.elhub.devxp:devxp-sonar-phab"
     val projectType = ProjectType.GRADLE
     val artifactoryRepository = "elhub-bin-release-local"
 
@@ -84,6 +85,22 @@ project {
                 }
             }
         )
+
+        buildType(
+            PublishDocs(
+                PublishDocs.Config(
+                    vcsRoot = DslContext.settingsRoot,
+                    type = projectType,
+                    dest = "devxp/devxp-sonar-phab"
+                )
+            ) {
+                triggers {
+                    vcs {
+                        branchFilter = "+:<default>"
+                        quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
+                    }
+                }
+            })
 
     }
 
