@@ -17,3 +17,25 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-extensions-allure-jvm:$kotestVersion")
 }
+
+val mainClassName = "no.elhub.tools.sonarphab.SonarPhabricatorKt"
+
+/*
+ * Publishing
+ * - Create a fat jar for deployment
+ * - Run it after the jar command and as part of the assemble task
+ */
+val fatJar = task("fatJar", type = Jar::class) {
+    archiveBaseName.set(rootProject.name)
+    manifest {
+        attributes["Implementation-Title"] = rootProject.name
+        attributes["Implementation-Version"] = rootProject.version
+        attributes["Main-Class"] = mainClassName
+    }
+    from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+    with(tasks.jar.get() as CopySpec)
+    mustRunAfter(tasks["jar"])
+}
+
+tasks["assemble"].dependsOn(tasks["fatJar"])
