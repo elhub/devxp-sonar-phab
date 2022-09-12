@@ -16,7 +16,6 @@ import no.elhub.devxp.build.configuration.AutoRelease
 import no.elhub.devxp.build.configuration.CodeReview
 import no.elhub.devxp.build.configuration.ProjectType
 import no.elhub.devxp.build.configuration.ProjectType.GRADLE
-import no.elhub.devxp.build.configuration.PublishDocs
 import no.elhub.devxp.build.configuration.SonarScan
 import no.elhub.devxp.build.configuration.UnitTest
 import no.elhub.devxp.build.configuration.constants.GlobalTokens
@@ -24,8 +23,8 @@ import no.elhub.devxp.build.configuration.constants.GlobalTokens
 version = "2022.04"
 
 project {
-
-    val projectId = "no.elhub.devxp:devxp-sonar-phab"
+    val projectName = "devxp-sonar-phab"
+    val projectId = "no.elhub.devxp:$projectName"
     val projectType = ProjectType.GRADLE
     val artifactoryRepository = "elhub-bin-release-local"
 
@@ -33,87 +32,56 @@ project {
         param("teamcity.ui.settings.readOnly", "true")
     }
 
-    val buildChain = sequential {
-
-        buildType(
-            UnitTest(
-                UnitTest.Config(
-                    vcsRoot = DslContext.settingsRoot,
-                    type = projectType
-                )
-            )
+    val unitTest = UnitTest(
+        UnitTest.Config(
+            vcsRoot = DslContext.settingsRoot,
+            type = projectType,
+            generateAllureReport = false,
         )
+    )
 
-        buildType(
-            SonarScan(
-                SonarScan.Config(
-                    vcsRoot = DslContext.settingsRoot,
-                    type = projectType,
-                    sonarId = projectId
-                )
-            )
-        )
+    val sonarScanConfig = SonarScan.Config(
+        vcsRoot = DslContext.settingsRoot,
+        type = projectType,
+        sonarId = projectId
+    )
 
-        buildType(
-            Assemble(
-                Assemble.Config(
-                    vcsRoot = DslContext.settingsRoot,
-                    type = projectType
-                )
-            )
-        )
-
-        val githubAuth = SshAgent({
-            teamcitySshKey = "teamcity_github_rsa"
-            param("secure:passphrase", GlobalTokens.githubSshPassphrase)
-        })
-
-        buildType(
-            AutoRelease(
-                AutoRelease.Config(
-                    vcsRoot = DslContext.settingsRoot,
-                    type = projectType,
-                    repository = artifactoryRepository,
-                    sshAgent = githubAuth
-                )
-            ) {
-                triggers {
-                    vcs {
-                        branchFilter = "+:<default>"
-                        quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
-                    }
-                }
-            }
-        )
-
-        buildType(
-            PublishDocs(
-                PublishDocs.Config(
-                    vcsRoot = DslContext.settingsRoot,
-                    type = projectType,
-                    dest = "devxp/devxp-sonar-phab"
-                )
-            ) {
-                triggers {
-                    vcs {
-                        branchFilter = "+:<default>"
-                        quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
-                    }
-                }
-            })
-
+    val sonarScan = SonarScan(sonarScanConfig) {
+        dependencies {
+            snapshot(unitTest) { }
+        }
     }
 
-    buildChain.buildTypes().forEach { buildType(it) }
+    val release = AutoRelease(
+        AutoRelease.Config(
+            vcsRoot = DslContext.settingsRoot,
+            type = projectType,
+            repository = artifactoryRepository
+        )
+    ) {
+        triggers {
+            vcs {
+                branchFilter = "+:<default>"
+                quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
+            }
+        }
+
+        dependencies {
+            snapshot(sonarScan) { }
+        }
+    }
+
+    listOf(unitTest, sonarScan, release).forEach { buildType(it) }
 
     buildType(
         CodeReview(
             CodeReview.Config(
                 vcsRoot = DslContext.settingsRoot,
                 type = projectType,
-                sonarId = projectId
+                sonarScanConfig = sonarScanConfig,
             )
         )
     )
+
 
 }

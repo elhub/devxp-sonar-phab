@@ -9,20 +9,6 @@
 [<img src="https://sonar.elhub.cloud/api/project_badges/measure?project=no.elhub.devxp%3Adevxp-sonar-phab&metric=vulnerabilities" alt="">](https://sonar.elhub.cloud/dashboard?id=no.elhub.devxp%3Adevxp-sonar-phab)
 [<img src="https://sonar.elhub.cloud/api/project_badges/measure?project=no.elhub.devxp%3Adevxp-sonar-phab&metric=coverage" alt="">](https://sonar.elhub.cloud/dashboard?id=no.elhub.devxp%3Adevxp-sonar-phab)
 
-## Table of Contents
-
-* [About](#about)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Testing](#testing)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [Owners](#owners)
-* [License](#license)
-
-
 ## About
 
 **sonar-phab** is a simple application that takes the result of a branch run of the sonarqube scanner (using the
@@ -81,10 +67,6 @@ The unit tests can be run using:
 ```sh
 ./gradlew test
 ```
-
-## Roadmap
-
-See the [open issues](https://jira.elhub.cloud/link-to-issues) for a list of proposed features (and known issues).
 
 ## Contributing
 
