@@ -39,4 +39,3 @@ val fatJar = task("fatJar", type = Jar::class) {
 }
 
 tasks["assemble"].dependsOn(tasks["fatJar"])
-    implementation(platform("no.elhub.test:test-bom:34.1.0"))
