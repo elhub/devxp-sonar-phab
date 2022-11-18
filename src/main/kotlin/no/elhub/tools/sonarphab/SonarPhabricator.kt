@@ -93,7 +93,7 @@ class SonarPhabricator : Callable<Int> {
         loadProperties()
         pollSonarServer()
         val factory = ObjectMapper().getFactory()
-        val sonarResult = "$sonarUrl/api/issues/search?componentKeys=$sonarId&branch=$sonarBranch" +
+        val sonarResult = "$sonarUrl/api/issues/search?componentKeys=$sonarId&inNewCodePeriod=true&branch=$sonarBranch" +
                 "&resolved=false&facets=severities"
         println("Retrieving $sonarResult")
         val parser = factory.createParser(URL(sonarResult))
