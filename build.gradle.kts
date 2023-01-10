@@ -1,5 +1,5 @@
 plugins {
-    id("no.elhub.devxp.kotlin-application") version "0.0.7"
+    id("no.elhub.devxp.kotlin-application") version "0.0.8"
 }
 
 description = "Retrieve SonarScan results from Sonarqube and post them to Phabricator."
