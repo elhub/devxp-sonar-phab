@@ -59,6 +59,7 @@ var taskResultUri = ""
 var sonarUrl = ""
 var sonarBranch = ""
 var sonarId = ""
+var sonarToken = System.getenv("SONAR_TOKEN")
 val phabricatorUrl = System.getenv("PHABRICATOR_URI")
 val targetPhid = System.getenv("PHABRICATOR_HARBORMASTER_PHID")
 val conduitToken = System.getenv("PHABRICATOR_CONDUIT_TOKEN")
@@ -93,10 +94,10 @@ class SonarPhabricator : Callable<Int> {
         loadProperties()
         pollSonarServer()
         val factory = ObjectMapper().getFactory()
-        val sonarResult = "$sonarUrl/api/issues/search?componentKeys=$sonarId&inNewCodePeriod=true&branch=$sonarBranch" +
-                "&resolved=false&facets=severities"
-        println("Retrieving $sonarResult")
-        val parser = factory.createParser(URL(sonarResult))
+
+        val sonarResultUri = ("$sonarUrl/api/issues/search?componentKeys=$sonarId&inNewCodePeriod=true&branch=$sonarBranch" +
+                "&resolved=false&facets=severities").replace("https://", "https://$sonarToken:@", true)
+        val parser = factory.createParser(URL(sonarResultUri))
         issues = SonarIssue.retrieveIssues(parser)
         writeToPhabricator(ConduitClient(phabricatorUrl, conduitToken))
         return 0
@@ -123,7 +124,7 @@ fun pollSonarServer() {
     var iterations = 0
     while (!success || iterations > POLL_ITERATIONS) {
         val factory = JsonFactory()
-        val parser = factory.createParser(URL(taskResultUri))
+        val parser = factory.createParser(URL(taskResultUri.replace("https://", "https://$sonarToken:@", true)))
         parser.nextToken() // JsonToken.START_OBJECT
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             val fieldName = parser.currentName
