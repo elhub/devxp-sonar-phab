@@ -30,13 +30,21 @@ import com.fasterxml.jackson.databind.JsonNode
  */
 class SonarIssue(parser: JsonParser) {
     var rule = ""
+        private set
     var severity = PhabricatorLintSeverity.ADVICE
+        private set
     var component = ""
+        private set
     var fileName = ""
+        private set
     var line = 0
+        private set
     var char = 0
+        private set
     var type = ""
+        private set
     var message = ""
+        private set
 
     init {
         parser.nextToken() // START_OBJECT

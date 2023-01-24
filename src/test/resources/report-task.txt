@@ -1,0 +1,4 @@
+ceTaskUrl=http://example.com?task=001
+serverUrl=http://sonar.example.com
+projectKey=DevXpSonarPhab
+branch=D0001

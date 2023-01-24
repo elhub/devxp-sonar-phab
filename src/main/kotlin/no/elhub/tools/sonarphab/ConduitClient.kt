@@ -27,13 +27,15 @@ import org.apache.http.NameValuePair
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.HttpStatus
 import org.apache.http.impl.client.HttpClientBuilder
+import org.apache.http.message.BasicNameValuePair
+import org.apache.http.client.entity.UrlEncodedFormEntity
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
 
 class ConduitClient(var url: String, var token: String) {
 
-    fun perform(action: String, params: JSONObject): JSONObject {
+    private fun perform(action: String, params: JSONObject): JSONObject {
         val httpClient = HttpClientBuilder.create().build()
         val postRequest = makeRequest(action, params)
         val response = httpClient.execute(postRequest)
@@ -57,10 +59,18 @@ class ConduitClient(var url: String, var token: String) {
         conduitMetadata.put("token", token)
         params.put("__conduit__", conduitMetadata)
         val formData = ArrayList<NameValuePair>()
-        formData.add(org.apache.http.message.BasicNameValuePair("params", params.toString()))
-        val entity = org.apache.http.client.entity.UrlEncodedFormEntity(formData, "UTF-8")
-        postRequest.setEntity(entity)
+        formData.add(BasicNameValuePair("params", params.toString()))
+        val entity = UrlEncodedFormEntity(formData, "UTF-8")
+        postRequest.entity = entity
         return postRequest
+    }
+
+    fun sendLintResults(lintResults: JSONArray): JSONObject {
+        val params = JSONObject()
+            .put("buildTargetPHID", targetPhid)
+            .put("type", "work")
+            .put("lint", lintResults)
+        return perform("harbormaster.sendmessage", params)
     }
 
     fun postComment(revisionID: String, message: String): JSONObject {
@@ -76,5 +86,5 @@ class ConduitClient(var url: String, var token: String) {
             )
         return perform("differential.revision.edit", params)
     }
-}
 
+}

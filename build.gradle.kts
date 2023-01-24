@@ -10,14 +10,16 @@ dependencies {
     implementation(libs.kotlin.stdlib.jdk8)
     implementation(libs.logging.slf4j.api)
     implementation(libs.logging.slf4j.simple)
-    implementation("org.apache.httpcomponents:httpclient:4.5.13")
-    implementation("info.picocli:picocli:4.6.3")
+    implementation("info.picocli:picocli:4.7.0")
     implementation("commons-io:commons-io:2.11.0")
+    implementation("org.apache.httpcomponents:httpclient:4.5.14")
     implementation("org.json:json:20220924")
     implementation(platform(libs.serialization.jackson.bom))
     implementation(libs.serialization.jackson.core)
     implementation(libs.serialization.jackson.databind)
     testImplementation(libs.test.kotest.runner.junit5)
+    testImplementation(libs.test.kotest.assertions.core)
+    testImplementation("io.mockk:mockk:1.13.3")
 }
 
 val applicationMainClass : String by project

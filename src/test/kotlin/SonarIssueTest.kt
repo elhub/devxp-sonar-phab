@@ -1,21 +1,20 @@
 package no.elhub.tools.sonarphab
 
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.JsonParseException
-import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.core.spec.style.DescribeSpec
-import java.io.*
-import no.elhub.tools.sonarphab.PhabricatorLintSeverity
-import no.elhub.tools.sonarphab.SonarIssue
+import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileInputStream
 
 class SonarIssueTest : DescribeSpec({
 
     describe("parsing the Sonar JSON file") {
 
-        val inputStream = FileInputStream(File("src/test/resources/sonarIssues.json"))
+        val inputStream = withContext(Dispatchers.IO) {
+            FileInputStream(File("src/test/resources/sonarIssues.json"))
+        }
         val factory = ObjectMapper().getFactory()
         val parser = factory.createParser(inputStream)
         val issues = SonarIssue.retrieveIssues(parser)
@@ -62,6 +61,21 @@ class SonarIssueTest : DescribeSpec({
 
         it("should contain 6 messages asking to remove commented out code") {
             issues.filter { it.message.equals("Remove this commented out code.") }.size shouldBe 6
+        }
+
+    }
+
+    describe("parsing an empty Sonar JSON file") {
+
+        val inputStream = withContext(Dispatchers.IO) {
+            FileInputStream(File("src/test/resources/sonarEmptyIssues.json"))
+        }
+        val factory = ObjectMapper().getFactory()
+        val parser = factory.createParser(inputStream)
+        val issues = SonarIssue.retrieveIssues(parser)
+
+        it("should contain 0 issues") {
+            issues.size shouldBe 0
         }
 
     }

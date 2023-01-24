@@ -22,28 +22,19 @@
  */
 package no.elhub.tools.sonarphab
 
-import picocli.CommandLine
-import java.io.File
-import kotlin.system.exitProcess
-import java.io.FileInputStream
-import java.lang.Thread.sleep
-import java.net.URL
-import java.net.HttpURLConnection
-import org.json.JSONArray
-import org.json.JSONObject
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.JsonNode
-import java.time.ZonedDateTime
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-import java.util.Properties
-import no.elhub.tools.sonarphab.SonarPhabException
-import java.net.URLConnection
-import java.util.Base64
+import org.json.JSONArray
+import org.json.JSONObject
+import picocli.CommandLine
+import java.io.FileInputStream
+import java.lang.Thread.sleep
+import java.net.URL
+import java.util.*
 import java.util.concurrent.Callable
+import kotlin.system.exitProcess
 
 const val POLL_ITERATIONS = 120 // Number of times to poll for a response
 const val POLL_SLEEP: Long = 500 // Time to wait between polls for a response
@@ -95,8 +86,8 @@ class SonarPhabricator : Callable<Int> {
             return 0
         }
         println("Start processing")
-        loadProperties()
-        pollSonarServer()
+        loadProperties(sonarResults)
+        pollSonarServer(taskResultUri)
         val factory = ObjectMapper().getFactory()
         val sonarResultUri = "$sonarUrl/api/issues/search?componentKeys=$sonarId&inNewCodePeriod=true&branch=$sonarBranch" +
                 "&resolved=false&facets=severities"
@@ -110,32 +101,30 @@ class SonarPhabricator : Callable<Int> {
 
 }
 
-fun loadProperties() {
+fun loadProperties(sonarProperties: String) {
     val properties = Properties()
-    val inputStream = FileInputStream(sonarResults)
+    val inputStream = FileInputStream(sonarProperties)
     properties.load(inputStream)
     taskResultUri = properties["ceTaskUrl"].toString()
     sonarUrl = properties["serverUrl"].toString()
     sonarId = properties["projectKey"].toString()
     sonarBranch = properties["branch"].toString()
-    println("$taskResultUri")
 }
 
 /** Poll the Sonar server for a specified amount of time (currently ~60 secs)
  */
-fun pollSonarServer() {
-    print("Waiting on task to complete (task $taskResultUri)")
+fun pollSonarServer(taskUri: String): Boolean {
+    print("Waiting on task to complete (task $taskUri)")
     var success = false
     var iterations = 0
     while (!success || iterations > POLL_ITERATIONS) {
         val factory = JsonFactory()
-        val taskConnection = URL(taskResultUri).openConnection()
+        val taskConnection = URL(taskUri).openConnection()
         taskConnection.setRequestProperty("Authorization", sonarAuth)
         val parser = factory.createParser(taskConnection.getInputStream())
         parser.nextToken() // JsonToken.START_OBJECT
         while (parser.nextToken() != JsonToken.END_OBJECT) {
-            val fieldName = parser.currentName
-            when (fieldName) {
+            when (parser.currentName) {
                 "task" -> success = parseTask(parser)
                 else -> Unit // NOOP
             }
@@ -145,6 +134,7 @@ fun pollSonarServer() {
         sleep(POLL_SLEEP)
     }
     println(".")
+    return success
 }
 
 private fun parseTask(parser: JsonParser): Boolean {
@@ -166,14 +156,14 @@ private fun parseTask(parser: JsonParser): Boolean {
     return false
 }
 
-fun writeToPhabricator(conduitClient: ConduitClient) {
+fun writeToPhabricator(conduitClient: ConduitClient): Int {
     if (issues.isEmpty()) {
         conduitClient.postComment(
                 sonarBranch,
                 "SonarQube did not find any issues. Great job!\n" +
                         "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
         )
-        return
+        return 0
     }
     val lintResults = JSONArray()
     var errors = 0
@@ -196,17 +186,14 @@ fun writeToPhabricator(conduitClient: ConduitClient) {
                         .put("char", it.char)
         )
     }
-    val params = JSONObject()
-            .put("buildTargetPHID", targetPhid)
-            .put("type", "work")
-            .put("lint", lintResults)
-    conduitClient.perform("harbormaster.sendmessage", params)
+    conduitClient.sendLintResults(lintResults)
     conduitClient.postComment(
             sonarBranch,
             "SonarQube identified ${issues.size} issues. $errors errors, $warnings warnings, and $advice advice. " +
                     "See lint results.\n" +
                     "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
     )
+    return issues.size
 }
 
 fun main(args: Array<String>): Unit = exitProcess(CommandLine(SonarPhabricator()).execute(*args))
