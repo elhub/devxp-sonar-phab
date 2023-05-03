@@ -30,9 +30,11 @@ import org.json.JSONArray
 import org.json.JSONObject
 import picocli.CommandLine
 import java.io.FileInputStream
+import java.io.InputStream
 import java.lang.Thread.sleep
 import java.net.URL
-import java.util.*
+import java.util.Base64
+import java.util.Properties
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
@@ -64,19 +66,19 @@ var issues = ArrayList<SonarIssue>()
  * Class for handling console arguments.
  */
 @CommandLine.Command(
-        name = "sonar-phab",
-        description = ["\nTool for retrieving sonar scans from SonarQube and posting them to Phabricator"],
-        optionListHeading = "@|bold %nOptions|@:%n",
-        sortOptions = false,
-        footer = [
-            "\nDeveloped by Elhub"
-        ]
+    name = "sonar-phab",
+    description = ["\nTool for retrieving sonar scans from SonarQube and posting them to Phabricator"],
+    optionListHeading = "@|bold %nOptions|@:%n",
+    sortOptions = false,
+    footer = [
+        "\nDeveloped by Elhub"
+    ]
 )
 class SonarPhabricator : Callable<Int> {
     @CommandLine.Option(
-            names = ["-h", "--help"],
-            usageHelp = true,
-            description = ["output usage information"]
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["output usage information"]
     )
     var help = false
 
@@ -89,7 +91,8 @@ class SonarPhabricator : Callable<Int> {
         loadProperties(sonarResults)
         pollSonarServer(taskResultUri)
         val factory = ObjectMapper().getFactory()
-        val sonarResultUri = "$sonarUrl/api/issues/search?componentKeys=$sonarId&inNewCodePeriod=true&branch=$sonarBranch" +
+        val sonarResultUri =
+            "$sonarUrl/api/issues/search?componentKeys=$sonarId&inNewCodePeriod=true&branch=$sonarBranch" +
                 "&resolved=false&facets=severities"
         val sonarConnection = URL(sonarResultUri).openConnection()
         sonarConnection.setRequestProperty("Authorization", sonarAuth)
@@ -119,9 +122,7 @@ fun pollSonarServer(taskUri: String): Boolean {
     var iterations = 0
     while (!success || iterations > POLL_ITERATIONS) {
         val factory = JsonFactory()
-        val taskConnection = URL(taskUri).openConnection()
-        taskConnection.setRequestProperty("Authorization", sonarAuth)
-        val parser = factory.createParser(taskConnection.getInputStream())
+        val parser = factory.createParser(openSonarConnection(taskUri))
         parser.nextToken() // JsonToken.START_OBJECT
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             when (parser.currentName) {
@@ -135,6 +136,12 @@ fun pollSonarServer(taskUri: String): Boolean {
     }
     println(".")
     return success
+}
+
+fun openSonarConnection(taskUri: String): InputStream? {
+    val taskConnection = URL(taskUri).openConnection()
+    taskConnection.setRequestProperty("Authorization", sonarAuth)
+    return taskConnection.getInputStream()
 }
 
 private fun parseTask(parser: JsonParser): Boolean {
@@ -159,9 +166,9 @@ private fun parseTask(parser: JsonParser): Boolean {
 fun writeToPhabricator(conduitClient: ConduitClient): Int {
     if (issues.isEmpty()) {
         conduitClient.postComment(
-                sonarBranch,
-                "SonarQube did not find any issues. Great job!\n" +
-                        "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
+            sonarBranch,
+            "SonarQube did not find any issues. Great job!\n" +
+                "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
         )
         return 0
     }
@@ -177,21 +184,21 @@ fun writeToPhabricator(conduitClient: ConduitClient): Int {
             PhabricatorLintSeverity.ADVICE -> advice++
         }
         lintResults.put(
-                JSONObject()
-                        .put("name", it.message)
-                        .put("code", it.rule)
-                        .put("severity", it.severity)
-                        .put("path", it.fileName)
-                        .put("line", it.line)
-                        .put("char", it.char)
+            JSONObject()
+                .put("name", it.message)
+                .put("code", it.rule)
+                .put("severity", it.severity)
+                .put("path", it.fileName)
+                .put("line", it.line)
+                .put("char", it.char)
         )
     }
     conduitClient.sendLintResults(lintResults)
     conduitClient.postComment(
-            sonarBranch,
-            "SonarQube identified ${issues.size} issues. $errors errors, $warnings warnings, and $advice advice. " +
-                    "See lint results.\n" +
-                    "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
+        sonarBranch,
+        "SonarQube identified ${issues.size} issues. $errors errors, $warnings warnings, and $advice advice. " +
+            "See lint results.\n" +
+            "Full sonar scan: $sonarUrl/dashboard?id=$sonarId&branch=$sonarBranch&resolved=false"
     )
     return issues.size
 }

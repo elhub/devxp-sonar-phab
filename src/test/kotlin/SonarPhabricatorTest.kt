@@ -1,21 +1,16 @@
 package no.elhub.tools.sonarphab
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.engine.launcher.main
-import io.kotest.extensions.system.SystemExitException
-import io.kotest.extensions.system.withEnvironment
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldStartWith
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import picocli.CommandLine
-import sun.net.www.protocol.http.HttpURLConnection
 import java.io.File
 import java.io.FileInputStream
 import java.io.PrintWriter
@@ -68,28 +63,28 @@ class SonarPhabricatorTest : DescribeSpec({
     }
 
     describe("Polling the sonar server") {
-        mockkConstructor(HttpURLConnection::class)
+        mockkStatic(::openSonarConnection)
         val mockContent = "{\n" +
-                "  \"task\": {\n" +
-                "    \"organization\": \"my-org-1\",\n" +
-                "    \"id\": \"AVAn5RKqYwETbXvgas-I\",\n" +
-                "    \"type\": \"REPORT\",\n" +
-                "    \"componentId\": \"AVAn5RJmYwETbXvgas-H\",\n" +
-                "    \"componentKey\": \"project_1\",\n" +
-                "    \"componentName\": \"Project One\",\n" +
-                "    \"componentQualifier\": \"TRK\",\n" +
-                "    \"analysisId\": \"123456\",\n" +
-                "    \"status\": \"SUCCESS\",\n" +
-                "    \"submittedAt\": \"2015-10-02T11:32:15+0200\",\n" +
-                "    \"startedAt\": \"2015-10-02T11:32:16+0200\",\n" +
-                "    \"executedAt\": \"2015-10-02T11:32:22+0200\",\n" +
-                "    \"executionTimeMs\": 5286,\n" +
-                "    \"logs\": false,\n" +
-                "    \"scannerContext\": \"SonarQube plugins:\\n\\t- Git 1.0 (scmgit)\\n\\t- Java 3.13.1 (java)\",\n" +
-                "    \"hasScannerContext\": true\n" +
-                "  }\n" +
-                "}\n"
-        every { anyConstructed<HttpURLConnection>().inputStream } returns mockContent.byteInputStream()
+            "  \"task\": {\n" +
+            "    \"organization\": \"my-org-1\",\n" +
+            "    \"id\": \"AVAn5RKqYwETbXvgas-I\",\n" +
+            "    \"type\": \"REPORT\",\n" +
+            "    \"componentId\": \"AVAn5RJmYwETbXvgas-H\",\n" +
+            "    \"componentKey\": \"project_1\",\n" +
+            "    \"componentName\": \"Project One\",\n" +
+            "    \"componentQualifier\": \"TRK\",\n" +
+            "    \"analysisId\": \"123456\",\n" +
+            "    \"status\": \"SUCCESS\",\n" +
+            "    \"submittedAt\": \"2015-10-02T11:32:15+0200\",\n" +
+            "    \"startedAt\": \"2015-10-02T11:32:16+0200\",\n" +
+            "    \"executedAt\": \"2015-10-02T11:32:22+0200\",\n" +
+            "    \"executionTimeMs\": 5286,\n" +
+            "    \"logs\": false,\n" +
+            "    \"scannerContext\": \"SonarQube plugins:\\n\\t- Git 1.0 (scmgit)\\n\\t- Java 3.13.1 (java)\",\n" +
+            "    \"hasScannerContext\": true\n" +
+            "  }\n" +
+            "}\n"
+        every { openSonarConnection(any()) } returns mockContent.byteInputStream()
         val res = pollSonarServer("http://sonar.example.com/api/ce/task")
 
         it("should return with success") {

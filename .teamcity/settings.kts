@@ -1,26 +1,16 @@
-import jetbrains.buildServer.configs.kotlin.v2019_2.BuildFeatures
-import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
-import jetbrains.buildServer.configs.kotlin.v2019_2.Trigger
-import jetbrains.buildServer.configs.kotlin.v2019_2.VcsRoot
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.SshAgent
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
-import jetbrains.buildServer.configs.kotlin.v2019_2.sequential
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.version
-import no.elhub.devxp.build.configuration.Assemble
 import no.elhub.devxp.build.configuration.AutoRelease
 import no.elhub.devxp.build.configuration.CodeReview
 import no.elhub.devxp.build.configuration.ProjectType
 import no.elhub.devxp.build.configuration.ProjectType.GRADLE
 import no.elhub.devxp.build.configuration.SonarScan
 import no.elhub.devxp.build.configuration.UnitTest
-import no.elhub.devxp.build.configuration.constants.GlobalTokens
 
-version = "2022.04"
+version = "2022.10"
 
 project {
     val projectName = "devxp-sonar-phab"
@@ -30,6 +20,9 @@ project {
 
     params {
         param("teamcity.ui.settings.readOnly", "true")
+        param("env.JAVA_HOME", "%env.JDK_17_0%")
+        param("env.JDK_HOME", "%env.JDK_17_0%")
+        param("env.JRE_HOME", "%env.JDK_17_0%")
     }
 
     val unitTest = UnitTest(
