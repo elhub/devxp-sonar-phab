@@ -13,7 +13,7 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         create("libs") {
-            from("no.elhub.devxp:devxp-version-catalog:0.4.1")
+            from("no.elhub.devxp:devxp-version-catalog:0.4.3")
         }
     }
 }
