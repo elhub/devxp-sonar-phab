@@ -6,7 +6,6 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.version
 import no.elhub.devxp.build.configuration.AutoRelease
 import no.elhub.devxp.build.configuration.CodeReview
 import no.elhub.devxp.build.configuration.ProjectType
-import no.elhub.devxp.build.configuration.ProjectType.GRADLE
 import no.elhub.devxp.build.configuration.SonarScan
 import no.elhub.devxp.build.configuration.UnitTest
 
@@ -35,7 +34,11 @@ project {
     val sonarScanConfig = SonarScan.Config(
         vcsRoot = DslContext.settingsRoot,
         type = projectType,
-        sonarId = projectId
+        sonarId = projectId,
+        additionalParams = listOf(
+            "-Dsonar.dependencyCheck.jsonReportPath=build/reports/dependency-check-report.json",
+            "-Dsonar.dependencyCheck.htmlReportPath=build/reports/dependency-check-report.html",
+        )
     )
 
     val sonarScan = SonarScan(sonarScanConfig) {
