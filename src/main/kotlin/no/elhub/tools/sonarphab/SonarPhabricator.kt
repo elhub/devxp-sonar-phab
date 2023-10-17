@@ -120,7 +120,7 @@ fun pollSonarServer(taskUri: String): Boolean {
     print("Waiting on task to complete (task $taskUri)")
     var success = false
     var iterations = 0
-    while (!success || iterations > POLL_ITERATIONS) {
+    while (!success && iterations < POLL_ITERATIONS) {
         val factory = JsonFactory()
         val parser = factory.createParser(openSonarConnection(taskUri))
         parser.nextToken() // JsonToken.START_OBJECT
